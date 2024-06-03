@@ -7,36 +7,27 @@ using System.Threading.Tasks;
 
 namespace Lab1
 {
-    public class Set<T> : IEnumerable<T>
+    public class Set<T>
     {
-        private Dictionary<T, object> _elements;
+        private HashSet<T> _elements;
 
         public Set()
         {
-            _elements = new Dictionary<T, object>();
+            _elements = new HashSet<T>();
         }
 
         public int Count => _elements.Count;
 
-        public bool Add(T item)
-        {
-            if (_elements.ContainsKey(item))
-            {
-                return false;
-            }
+        public bool IsEmpty => _elements.Count == 0;
 
-            _elements[item] = null;
-            return true;
+        public void Add(T item)
+        {
+            _elements.Add(item);
         }
 
-        public bool Remove(T item)
+        public void Remove(T item)
         {
-            return _elements.Remove(item);
-        }
-
-        public bool Contains(T item)
-        {
-            return _elements.ContainsKey(item);
+            _elements.Remove(item);
         }
 
         public void Clear()
@@ -44,14 +35,16 @@ namespace Lab1
             _elements.Clear();
         }
 
-        public IEnumerator<T> GetEnumerator()
+        public T[] ToArray()
         {
-            return _elements.Keys.GetEnumerator();
+            T[] array = new T[_elements.Count];
+            _elements.CopyTo(array);
+            return array;
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        public bool Contains(T item)
         {
-            return GetEnumerator();
+            return _elements.Contains(item);
         }
     }
 }
